@@ -16,4 +16,16 @@ private:
 	static std::mt19937 gen;
 };
 
-class MathTest;
+class MathTest {
+	Task* tasks;
+	int count;
+	int* user_answers;
+	int correct_count;
+public:
+	MathTest(int count_tests);
+	MathTest(int count_tests, int min, int max);
+	MathTest(int count_tests, int min, int max, char operation);
+	~MathTest();
+
+	const Task& getTask(int index) const;
+};

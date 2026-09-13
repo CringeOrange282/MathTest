@@ -50,3 +50,36 @@ void Task::random_answer() {
 		break;
 	}
 }
+
+MathTest::MathTest(int count_tests) {
+	tasks = new Task[count_tests];
+	count = count_tests;
+	user_answers = new int[count_tests];
+	correct_count = 0;
+}
+MathTest::MathTest(int count_tests, int min, int max) {
+	tasks = new Task[count_tests];
+	for (int i = 0; i < count_tests; i++) {
+		tasks[i] = Task(min, max);
+	}
+	count = count_tests;
+	user_answers = new int[count_tests];
+	correct_count = 0;
+}
+MathTest::MathTest(int count_tests, int min, int max, char operation) {
+	tasks = new Task[count_tests];
+	for (int i = 0; i < count_tests; i++) {
+		tasks[i] = Task(min, max, operation);
+	}
+	count = count_tests;
+	user_answers = new int[count_tests];
+	correct_count = 0;
+}
+MathTest::~MathTest() {
+	delete[] tasks;
+	delete[] user_answers;
+}
+
+const Task& MathTest::getTask(int index) const{
+	return tasks[index];
+}
