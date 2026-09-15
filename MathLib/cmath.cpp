@@ -16,13 +16,10 @@ Task::Task(int min, int max, char user_operation) : operation(user_operation) {
 	std::uniform_real_distribution<double> distrib(min, max);
 	this->num1 = distrib(gen);
 	this->num2 = distrib(gen);
-	
-
 	if (this->operation == '\0') {
 		random_operator();
 	}
 	random_answer();
-	
 }
 void Task::random_operator() {
 	std::uniform_int_distribution<int> distrib(1, 4);
@@ -82,4 +79,42 @@ MathTest::~MathTest() {
 
 const Task& MathTest::getTask(int index) const{
 	return tasks[index];
+}
+
+transfer user_input() {
+	transfer setup;
+	std::cout << "1 random questions\n2 random questions in the range\n3 questions in a range with a choice of operations\n";
+	std::cin >> setup.choice;
+	while (setup.choice > 3 || setup.choice < 1) {
+		std::cout << "Please, enter correct:";
+		std::cin >> setup.choice;
+	}
+	if (setup.choice == 1) {
+		std::cout << "select the number of questions\n";
+		std::cin >> setup.count_tests;
+		return setup;
+	}
+	else if (setup.choice == 2) {
+		std::cout << "select the number of questions, min number, max number\n";
+		std::cin >> setup.count_tests >> setup.min >> setup.max;
+		return setup;
+	}
+	else if (setup.choice == 3) {
+		std::cout << "select the number of questions, min number, max number and operation\n";
+		std::cin >> setup.count_tests >> setup.min >> setup.max >> setup.operation;
+		return setup;
+	}
+}
+
+MathTest* user_choice(transfer setup) {
+	if (setup.choice == 1) {
+		return new MathTest(setup.count_tests);
+	}
+	else if (setup.choice == 2) {
+		return new MathTest(setup.count_tests, setup.min, setup.max);
+	}
+	else if (setup.choice == 3) {
+		return new MathTest(setup.count_tests, setup.min, setup.max, setup.operation);
+	}
+	else return nullptr;
 }

@@ -61,3 +61,33 @@ TEST(MathTest, TestDelete) {
 	}
 	SUCCEED(); 
 }
+
+TEST(MathTestApp, user_choice_setup3) {
+	transfer setup = { 5, 10, 50, '/', 3 };
+	MathTest* first = user_choice(setup);
+	for (int i = 0; i < setup.count_tests; i++) {
+		EXPECT_GE(first->getTask(i).num1, setup.min);
+		EXPECT_GE(first->getTask(i).num2, setup.min);
+		EXPECT_LE(first->getTask(i).num1, setup.max);
+		EXPECT_LE(first->getTask(i).num2, setup.max);
+		EXPECT_EQ(first->getTask(i).operation, setup.operation);
+	}
+	delete first;
+}
+
+TEST(MathTestApp, user_choice_setup2) {
+	transfer setup = { 5, 10, 50,'\0', 2};
+	MathTest* first = user_choice(setup);
+	for (int i = 0; i < setup.count_tests; i++) {
+		EXPECT_GE(first->getTask(i).num1, setup.min);
+		EXPECT_GE(first->getTask(i).num2, setup.min);
+		EXPECT_LE(first->getTask(i).num1, setup.max);
+		EXPECT_LE(first->getTask(i).num2, setup.max);
+	}
+	delete first;
+}
+TEST(MathTestApp, user_choice_setup1) {
+	transfer setup = { 5, 0, 0,'\0', 1 };
+	MathTest* first = user_choice(setup);
+	delete first;
+}

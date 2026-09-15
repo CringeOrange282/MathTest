@@ -1,4 +1,11 @@
 #include <iostream>
+#include "cmath.h"
+
 int main() {
-	std::cout << "Hello World!\n";
+	MathTest* taskBank = nullptr;
+
+	std::cout << "Welcome to the Mathematical Olympiad!\n";
+	transfer setup = user_input();
+	taskBank = user_choice(setup);
+	delete taskBank;
 }

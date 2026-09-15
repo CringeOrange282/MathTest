@@ -26,6 +26,18 @@ public:
 	MathTest(int count_tests, int min, int max);
 	MathTest(int count_tests, int min, int max, char operation);
 	~MathTest();
+	void run();
 
 	const Task& getTask(int index) const;
 };
+
+struct transfer {
+	int count_tests = 0;
+	int min = 0;
+	int max = 0;
+	char operation =  '/';
+	int choice = 0;
+};
+
+transfer user_input();
+MathTest* user_choice(transfer setup);
