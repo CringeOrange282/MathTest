@@ -4,16 +4,15 @@
 std::mt19937 Task::gen(std::random_device{}());
 
 Task::Task(){
-	std::uniform_real_distribution<double> distrib;
+	std::uniform_int_distribution<int> distrib(1, 50);
 	this->num1 =distrib(gen);
 	this->num2 =distrib(gen);
-	
 
 	random_operator();
 	random_answer();
 }
 Task::Task(int min, int max, char user_operation) : operation(user_operation) {
-	std::uniform_real_distribution<double> distrib(min, max);
+	std::uniform_int_distribution<int> distrib(min, max);
 	this->num1 = distrib(gen);
 	this->num2 = distrib(gen);
 	if (this->operation == '\0') {
@@ -38,11 +37,11 @@ void Task::random_answer() {
 	case '-': this->answer = num1 - num2; break;
 	case '*': this->answer = num1 * num2; break;
 	case '/':
-		if (this->num2 != 0.0) {
+		if (this->num2 != 0) {
 			this->answer = num1 / num2;
 		}
 		else {
-			this->answer = 0.0; 
+			this->answer = 0; 
 		}
 		break;
 	}
@@ -117,4 +116,24 @@ MathTest* user_choice(transfer setup) {
 		return new MathTest(setup.count_tests, setup.min, setup.max, setup.operation);
 	}
 	else return nullptr;
+}
+
+void MathTest::run() {
+	int answer;
+	for (int i = 0; i < this->count; i++) {
+		std::cout << this->getTask(i).num1 << this->getTask(i).operation << this->getTask(i).num2 << "\n";
+		std::cout << "Your answer: ";
+		std::cin >> answer;
+		check_answer(answer,i);
+	}
+}
+void MathTest::check_answer(int answer,int index) {
+	if (answer == this->getTask(index).answer) {
+		this->correct_count++;
+	}
+	this->user_answers[index] = answer;
+
+}
+void MathTest::show_statistics() {
+	std::cout << "Coming soon";
 }

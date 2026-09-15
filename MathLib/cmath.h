@@ -1,11 +1,12 @@
 #pragma once
 #include <iostream>
 #include<random>
+#include <cmath>
 struct Task {
-	double num1;
-	double num2;
+	int num1;
+	int num2;
 	char operation;
-	double answer;
+	int answer;
 	void random_operator();
 	void random_answer();
 
@@ -27,6 +28,8 @@ public:
 	MathTest(int count_tests, int min, int max, char operation);
 	~MathTest();
 	void run();
+	void check_answer(int answer, int index);
+	void show_statistics();
 
 	const Task& getTask(int index) const;
 };
@@ -35,7 +38,7 @@ struct transfer {
 	int count_tests = 0;
 	int min = 0;
 	int max = 0;
-	char operation =  '/';
+	char operation = '\0';
 	int choice = 0;
 };
 
