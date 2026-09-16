@@ -1,6 +1,8 @@
 #include "cmath.h"
 #include <cstdlib>
 #include <random>
+#include <iomanip>
+#include <string>
 std::mt19937 Task::gen(std::random_device{}());
 
 Task::Task(){
@@ -135,5 +137,45 @@ void MathTest::check_answer(int answer,int index) {
 
 }
 void MathTest::show_statistics() {
-	std::cout << "Coming soon";
+	std::cout << "|    No     |";
+	for (int i = 0; i < this->count; i++) {
+		std::cout << " " << std::setw(6) << (i + 1) << " |";
+	}
+	std::cout << "\n";
+
+	std::cout << "+-----------+";
+	for (int i = 0; i < count; ++i) {
+		std::cout << "--------+";
+	}
+	std::cout << "\n";
+
+	std::cout << "| Question  |";
+	for (int i = 0; i < count; ++i) {
+		std::string expr = std::to_string(this->getTask(i).num1) + " " +
+			std::string(1, this->getTask(i).operation) + " " +
+			std::to_string(this->getTask(i).num2);
+		std::cout << " " << std::setw(6) << expr << " |";
+	}
+	std::cout << "\n";
+		
+	std::cout << "| True Ans  |";
+	for (int i = 0; i < count; ++i) {
+		std::cout << " " << std::setw(6) << this->getTask(i).answer << " |";
+	}
+	std::cout << "\n";
+
+	std::cout << "| Your Ans  |";
+	for (int i = 0; i < count; ++i) {
+		std::cout << " " << std::setw(6) << user_answers[i] << " |";
+	}
+	std::cout << "\n";
+
+	std::cout << "|  Result   |";
+	for (int i = 0; i < count; ++i) {
+		char sign = (user_answers[i] == this->getTask(i).answer) ? '+' : '-';
+		std::cout << " " << std::setw(6) << sign << " |";
+	}
+	std::cout << "\n\n";
+
+	std::cout << "Total Result: " << correct_count << " / " << count << "\n";
 }
