@@ -32,6 +32,13 @@ public:
 	void show_statistics();
 
 	const Task& getTask(int index) const;
+	int getCount() const{
+		return this->count;
+	}
+	int getCorrectCount() const {
+		return this->correct_count;
+	}
+
 };
 
 struct transfer {

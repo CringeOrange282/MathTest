@@ -91,3 +91,12 @@ TEST(MathTestApp, user_choice_setup1) {
 	MathTest* first = user_choice(setup);
 	delete first;
 }
+
+TEST(MathTestApp, check_answer) {
+	MathTest first(5);
+	for (int i = 0; i < first.getCount(); i++) {
+		int correct = first.getTask(i).answer;
+		first.check_answer(correct, i);
+	}
+	EXPECT_EQ(first.getCorrectCount(), 5);
+}
