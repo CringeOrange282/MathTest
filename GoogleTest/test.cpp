@@ -1,0 +1,136 @@
+#include "pch.h"
+#include "cmath.h"
+
+TEST(Task, TestNumRange) {
+	Task first(1, 5);
+	if (first.operation == '/') {
+		EXPECT_GE(first.answer, 1);
+		EXPECT_LE(first.answer, 5);
+		EXPECT_GE(first.num2, 1);
+		EXPECT_LE(first.num2, 5);
+	}
+	else {
+		EXPECT_GE(first.num1, 1);
+		EXPECT_LE(first.num1, 5);
+		EXPECT_GE(first.num2, 1);
+		EXPECT_LE(first.num2, 5);
+	}
+}
+
+TEST(Task, TestOperation) {
+	Task first(1, 5, '+');
+	EXPECT_EQ(first.operation, '+');
+}
+
+TEST(Task, TestUnique) {
+	Task first;
+	Task second;
+	EXPECT_NE(first.num1, second.num1);
+	EXPECT_NE(first.num2, second.num2);
+	EXPECT_NE(first.answer, second.answer);
+}
+TEST(Task, TestAnswer) {
+	Task first;
+	switch (first.operation) {
+	case '+': EXPECT_EQ(first.answer, first.num1 + first.num2)<< "Ошибка при сложении"; break;
+	case '-': EXPECT_EQ(first.answer, first.num1 - first.num2)<< "Ошибка при вычитании"; break;
+	case '*': EXPECT_EQ(first.answer, first.num1 * first.num2)<< "Ошибка при умножении"; break;
+	case '/': EXPECT_EQ(first.answer, first.num1 / first.num2)<< "Ошибка при делении"; break;
+	}
+}
+TEST(Task, TestDivisionByZero) {
+	Task first(0, 0, '/');
+	EXPECT_DOUBLE_EQ(first.answer, 0) << "Защита от деления на ноль";
+}
+
+TEST(MathTest, InitializationConstructor) {
+	MathTest first(5, 10, 50);
+	for (int i = 0; i < 5; i++) {
+		if (first.getTask(i).operation == '/') {
+			EXPECT_GE(first.getTask(i).answer, 10);
+			EXPECT_LE(first.getTask(i).answer, 50);
+			EXPECT_GE(first.getTask(i).num2, 10);
+			EXPECT_LE(first.getTask(i).num2, 50);
+		}
+		else {
+			EXPECT_GE(first.getTask(i).num1, 10);
+			EXPECT_LE(first.getTask(i).num1, 50);
+			EXPECT_GE(first.getTask(i).num2, 10);
+			EXPECT_LE(first.getTask(i).num2, 50);
+		}
+	}
+}
+
+TEST(MathTest, TestAnswer) {
+	MathTest first(5, 10, 50, '/');
+	for (int i = 0; i < 5; i++) {
+		int first_num = first.getTask(i).num1;
+		int second_num = first.getTask(i).num2;
+		EXPECT_EQ(first.getTask(i).operation, '/');
+		EXPECT_EQ(first.getTask(i).answer, first_num /second_num);
+	}
+}
+
+TEST(MathTest, TestDelete) {
+	{
+		MathTest first(10, 1, 50);
+	}
+	SUCCEED(); 
+}
+
+TEST(MathTestApp, user_choice_setup3) {
+	transfer setup = { 5, 10, 50, '/', 3 };
+	MathTest* first = user_choice(setup);
+	for (int i = 0; i < setup.count_tests; i++) {
+		if (first->getTask(i).operation == '/') {
+			EXPECT_GE(first->getTask(i).answer, setup.min);
+			EXPECT_GE(first->getTask(i).num2, setup.min);
+			EXPECT_LE(first->getTask(i).answer, setup.max);
+			EXPECT_LE(first->getTask(i).num2, setup.max);
+			EXPECT_EQ(first->getTask(i).operation, setup.operation);
+		}
+		else {
+			EXPECT_GE(first->getTask(i).num1, setup.min);
+			EXPECT_GE(first->getTask(i).num2, setup.min);
+			EXPECT_LE(first->getTask(i).num1, setup.max);
+			EXPECT_LE(first->getTask(i).num2, setup.max);
+			EXPECT_EQ(first->getTask(i).operation, setup.operation);
+		}
+	}
+	delete first;
+}
+
+TEST(MathTestApp, user_choice_setup2) {
+	transfer setup = { 5, 10, 50,'\0', 2};
+	MathTest* first = user_choice(setup);
+	for (int i = 0; i < setup.count_tests; i++) {
+		if (first->getTask(i).operation == '/') {
+			EXPECT_GE(first->getTask(i).answer, setup.min);
+			EXPECT_GE(first->getTask(i).num2, setup.min);
+			EXPECT_LE(first->getTask(i).answer, setup.max);
+			EXPECT_LE(first->getTask(i).num2, setup.max);
+		}
+		else {
+			EXPECT_GE(first->getTask(i).num1, setup.min);
+			EXPECT_GE(first->getTask(i).num2, setup.min);
+			EXPECT_LE(first->getTask(i).num1, setup.max);
+			EXPECT_LE(first->getTask(i).num2, setup.max);
+		}
+		
+	}
+	delete first;
+}
+TEST(MathTestApp, user_choice_setup1) {
+	transfer setup = { 5, 0, 0,'\0', 1 };
+	MathTest* first = user_choice(setup);
+	delete first;
+}
+
+TEST(MathTestApp, check_answer) {
+	MathTest first(5);
+	for (int i = 0; i < first.getCount(); i++) {
+		int correct = first.getTask(i).answer;
+		first.check_answer(correct, i);
+	}
+	EXPECT_EQ(first.getCorrectCount(), 5);
+}
