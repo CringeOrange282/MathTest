@@ -5,10 +5,10 @@
 #include <string>
 std::mt19937 Task::gen(std::random_device{}());
 
-Task::Task(){
+Task::Task() {
 	std::uniform_int_distribution<int> distrib(1, 50);
-	this->num1 =distrib(gen);
-	this->num2 =distrib(gen);
+	this->num1 = distrib(gen);
+	this->num2 = distrib(gen);
 
 	random_operator();
 	random_answer();
@@ -33,17 +33,16 @@ void Task::random_operator() {
 	}
 }
 void Task::random_answer() {
-	
+
 	switch (this->operation) {
 	case '+': this->answer = num1 + num2; break;
 	case '-': this->answer = num1 - num2; break;
 	case '*': this->answer = num1 * num2; break;
 	case '/':
-		if (this->num2 != 0) {
-			this->answer = num1 / num2;
-		}
-		else {
-			this->answer = 0; 
+		this->answer = this->num1;
+		this->num1 = this->answer * this->num2;
+		if (this->num2 == 0){
+			this->num2 = 1;
 		}
 		break;
 	}
@@ -78,7 +77,7 @@ MathTest::~MathTest() {
 	delete[] user_answers;
 }
 
-const Task& MathTest::getTask(int index) const{
+const Task& MathTest::getTask(int index) const {
 	return tasks[index];
 }
 
@@ -126,10 +125,10 @@ void MathTest::run() {
 		std::cout << this->getTask(i).num1 << this->getTask(i).operation << this->getTask(i).num2 << "\n";
 		std::cout << "Your answer: ";
 		std::cin >> answer;
-		check_answer(answer,i);
+		check_answer(answer, i);
 	}
 }
-void MathTest::check_answer(int answer,int index) {
+void MathTest::check_answer(int answer, int index) {
 	if (answer == this->getTask(index).answer) {
 		this->correct_count++;
 	}
@@ -157,7 +156,7 @@ void MathTest::show_statistics() {
 		std::cout << " " << std::setw(6) << expr << " |";
 	}
 	std::cout << "\n";
-		
+
 	std::cout << "| True Ans  |";
 	for (int i = 0; i < count; ++i) {
 		std::cout << " " << std::setw(6) << this->getTask(i).answer << " |";

@@ -32,7 +32,7 @@ public:
 	void show_statistics();
 
 	const Task& getTask(int index) const;
-	int getCount() const{
+	int getCount() const {
 		return this->count;
 	}
 	int getCorrectCount() const {
